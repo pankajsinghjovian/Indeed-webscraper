@@ -1,0 +1,9 @@
+pandas 
+beautifulSoup4
+numpy 
+bs4
+selenium
+requests
+slack_sdk
+slack 
+schedule
