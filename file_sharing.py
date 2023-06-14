@@ -3,9 +3,8 @@ from slack_sdk.errors import SlackApiError
 import os 
 
 
-slack_token = os.getenv('slack_token')
 slack_scrapper_token = os.getenv('slack_scraper_token')
-print(slack_token)
+
 print(slack_scrapper_token)
 
 
