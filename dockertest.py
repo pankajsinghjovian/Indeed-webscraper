@@ -39,7 +39,7 @@ def set_chrome() -> Options:
 if __name__=="__main__":
         driver =webdriver.Chrome(options=set_chrome())
 
-        email= os.getenv('user_email)
+        email= os.getenv('user_email')
         password= os.getenv('password')
         
         data_analyst="https://in.indeed.com/jobs?q=Data+Analyst&l=India&from=searchOnHP&vjk=83e9c11139c0c4e3"
