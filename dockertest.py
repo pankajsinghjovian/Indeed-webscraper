@@ -5,15 +5,13 @@ from bs4 import BeautifulSoup
 from time import sleep
 import os 
 
-
-# importing Webdriver Chrome Options from selenium 
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-# importing webdriver
+
+
 from selenium import webdriver
 
-# # ...
 user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
 
 # Setting up the chromium options 
@@ -24,6 +22,13 @@ def set_chrome() -> Options:
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-notifications")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--disable-notifications")
+    chrome_options.add_experimental_option("excludeSwitches",["ignore-certificate-errors"])
+    chrome_options.add_argument('--disable-usb-discovery')
+    chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"]) 
+    chrome_options.add_experimental_option('useAutomationExtension', False)
     chrome_prefs={}
     chrome_options.add_argument(f'user-agent={user_agent}')
     chrome_options.add_argument('--disable-features=InterestCohort')
@@ -40,32 +45,15 @@ if __name__=="__main__":
         data_analyst="https://in.indeed.com/jobs?q=Data+Analyst&l=India&from=searchOnHP&vjk=83e9c11139c0c4e3"
 
         driver.get(data_analyst)
-        # print("Page URL:", driver.current_url) 
-        # print("Page Title:", driver.title)
 
         driver.get(data_analyst)
         sleep(10)
 
         page_source = driver.page_source
-        # print(page_source)
 
         soup = BeautifulSoup(page_source, 'html.parser')
-        #prettified_page = soup.prettify()
-        # print(f'Printing the downloaded page', soup)
-
-
-        # Job_title = soup.find('div',class_="css-1m4cuuf e37uo190")
-        # print(Job_title[5].text)
-
-        Job_title = soup.find_all('div',class_="css-1m4cuuf e37uo190")
-        # j_t= Job_title[5].text
-        # print(len(j_t))
-
-        # print(Job_title[5].text)
-        # print(f'printing the title of one of the job',Job_title[2].text)
-
+    
         def scroll_down():
-            # Get the body element and send the PAGE_DOWN key
             body = driver.find_element(By.TAG_NAME,"body")
             body.send_keys(Keys.PAGE_DOWN)
 
@@ -80,8 +68,6 @@ if __name__=="__main__":
 
         # Organisation name 
         org_name=soup.find_all('div',class_="heading6 company_location tapItem-gutter companyInfo")
-        #org_tag=org_name[0].find('span').text
-        # print(org_tag)
 
         # Function to get the organisation Name 
         def get_org_details(Data):
@@ -92,7 +78,6 @@ if __name__=="__main__":
                 split=name.strip(".")
                 Company.append(split)
             return Company
-
 
 
         # Function to get the JOB-Location 
@@ -109,7 +94,6 @@ if __name__=="__main__":
 
         def get_job_link(Data):
             a_tag= soup.find_all('a', class_='jcs-JobTitle css-jspxzf eu4oa1w0')
-            print(a_tag)
             a_tag[0]['href']
             job_li=[]
             for i in range(len(a_tag)):
@@ -149,12 +133,6 @@ if __name__=="__main__":
 
             Job_des=get_description(soup)
 
-            # #Getting the details for the date of Job-Posting
-            # date=get_dates(Soup)
-                
-            # # Getting the details for the Salary
-            # salary_data=get_Salary(Soup)
-
             Columns_names=['JOB-Title','Organinsation','Location','Job-Description','Date-of-Posting','Salary']
             Dict_data={
                         'JOB-Title' : Job_Heading,
@@ -168,17 +146,12 @@ if __name__=="__main__":
                     }
             Df=pd.DataFrame(Dict_data)
             
-            return Df
-
-        # #List of links for the different Job Roles
-        # role_links=[data_analyst,business_analyst,Product_analyst]
-
-        
+            return Df        
 
 
         D_A = details(soup)
-        # Data_Frame=pd.concat(DF_list,ignore_index=True)
         D_A.to_csv("JOBS.CSV",index=None)
+        D_A.to_excel("JOBS.xlsx", index=None)
 
         import file_sharing
         file= file_sharing.send_file()
