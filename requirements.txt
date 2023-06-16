@@ -7,3 +7,4 @@ requests
 slack_sdk
 slack 
 schedule
+openpyxl
