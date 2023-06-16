@@ -3,7 +3,6 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from time import sleep
-import os 
 
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -151,7 +150,6 @@ if __name__=="__main__":
 
         D_A = details(soup)
         D_A.to_csv("JOBS.CSV",index=None)
-        D_A.to_excel("JOBS.xlsx", index=None)
 
         import file_sharing
         file= file_sharing.send_file()
