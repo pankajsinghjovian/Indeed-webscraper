@@ -149,7 +149,7 @@ if __name__=="__main__":
 
 
         D_A = details(soup)
-        D_A.to_csv("JOBS.CSV",index=None)
+        D_A.to_csv("Indeed_JOBS.CSV",index=None)
 
         import file_sharing
         file= file_sharing.send_file()
