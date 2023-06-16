@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from time import sleep
+import os 
 
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -38,7 +39,7 @@ def set_chrome() -> Options:
 if __name__=="__main__":
         driver =webdriver.Chrome(options=set_chrome())
 
-        email= os.getenv('user_email')
+        email= os.getenv('user_name')
         password= os.getenv('password')
         
         data_analyst="https://in.indeed.com/jobs?q=Data+Analyst&l=India&from=searchOnHP&vjk=83e9c11139c0c4e3"
@@ -150,7 +151,11 @@ if __name__=="__main__":
 
         D_A = details(soup)
         D_A.to_csv("JOBS.CSV",index=None)
+        D_A.to_excel("JOBS.xlsx",index=None)
+    
 
         import file_sharing
-        file= file_sharing.send_file()
+        file_sharing.send_message()
+        file_sharing.send_file()
+        
         
