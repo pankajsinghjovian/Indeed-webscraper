@@ -10,8 +10,6 @@ channel =os.getenv("channel_id")
 
 # Set the path to the file you want to send
 file_path = r"JOBS.CSV"
-file_path1= r'JOBS.xlsx'
-file_list= [file_path1, file_path]
 
 # #Setting up an Automated Text
 message ="Here is the Indeed scrapped Jobs"
@@ -21,10 +19,9 @@ client = WebClient(token=slack_scrapper_token)
 
 #Function to send the file
 def send_file():
-     for file in file_list:
-         response =client.files_upload_v2(
-            channel = channel,
-            file= file,
+     response =client.files_upload_v2(
+     channel = channel,
+     file= file_path,
          )
      if response['ok']:
         print (f"File sent successful")
